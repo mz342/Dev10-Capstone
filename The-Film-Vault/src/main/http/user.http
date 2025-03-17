@@ -1,0 +1,45 @@
+### Register a new user (Success)
+POST http://localhost:8080/api/user/register
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "email": "testuser@example.com",
+  "passwordHash": "password123",
+  "role": "USER"
+}
+
+### Register a user with the same username (Failure)
+POST http://localhost:8080/api/user/register
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "email": "newemail@example.com",
+  "passwordHash": "password123",
+  "role": "USER"
+}
+
+### Login (Success)
+POST http://localhost:8080/api/user/login
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "passwordHash": "password123"
+}
+
+### Login (Failure - wrong password)
+POST http://localhost:8080/api/user/login
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "passwordHash": "wrongpassword"
+}
+
+### Find user by ID (Success)
+GET http://localhost:8080/api/user/1
+
+### Find user by ID (Failure - user does not exist)
+GET http://localhost:8080/api/user/999
