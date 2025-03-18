@@ -1,0 +1,64 @@
+### Get all movies
+GET http://localhost:8080/api/movies
+
+### Get a movie by ID (Success)
+GET http://localhost:8080/api/movies/1
+
+### Get a movie by ID (Failure - movie not found)
+GET http://localhost:8080/api/movies/999
+
+### Add a new movie (Success)
+POST http://localhost:8080/api/movies
+Content-Type: application/json
+
+{
+  "title": "Inception",
+  "description": "A mind-bending thriller about dream manipulation.",
+  "releaseYear": 2010,
+  "director": "Christopher Nolan",
+  "rating": 8.8
+}
+
+### Add a movie with invalid rating (Failure)
+POST http://localhost:8080/api/movies
+Content-Type: application/json
+
+{
+  "title": "Interstellar",
+  "description": "A space exploration movie.",
+  "releaseYear": 2014,
+  "director": "Christopher Nolan",
+  "rating": 12.0
+}
+
+### Update a movie (Success)
+PUT http://localhost:8080/api/movies/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "title": "Inception (Updated)",
+  "description": "Updated description for the movie.",
+  "releaseYear": 2010,
+  "director": "Christopher Nolan",
+  "rating": 9.0
+}
+
+### Update a movie (Failure - ID mismatch)
+PUT http://localhost:8080/api/movies/2
+Content-Type: application/json
+
+{
+  "id": 1,
+  "title": "Inception (Updated)",
+  "description": "Updated description for the movie.",
+  "releaseYear": 2010,
+  "director": "Christopher Nolan",
+  "rating": 9.0
+}
+
+### Delete a movie (Success)
+DELETE http://localhost:8080/api/movies/1
+
+### Delete a movie (Failure - movie not found)
+DELETE http://localhost:8080/api/movies/999
