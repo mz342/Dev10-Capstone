@@ -1,0 +1,63 @@
+### Get all reviews for a movie
+GET http://localhost:8080/api/reviews/movie/1
+
+### Get all reviews by a user
+GET http://localhost:8080/api/reviews/user/1
+
+### Get a review by ID (Success)
+GET http://localhost:8080/api/reviews/1
+
+### Get a review by ID (Failure - review not found)
+GET http://localhost:8080/api/reviews/999
+
+### Add a new review (Success)
+POST http://localhost:8080/api/reviews
+Content-Type: application/json
+
+{
+  "movieId": 1,
+  "userId": 1,
+  "rating": 8.5,
+  "reviewText": "This movie was amazing!"
+}
+
+### Add a review with invalid rating (Failure)
+POST http://localhost:8080/api/reviews
+Content-Type: application/json
+
+{
+  "movieId": 1,
+  "userId": 1,
+  "rating": 12.0,
+  "reviewText": "Invalid rating test."
+}
+
+### Update a review (Success)
+PUT http://localhost:8080/api/reviews/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "movieId": 1,
+  "userId": 1,
+  "rating": 9.0,
+  "reviewText": "Updated review text."
+}
+
+### Update a review (Failure - ID mismatch)
+PUT http://localhost:8080/api/reviews/2
+Content-Type: application/json
+
+{
+  "id": 1,
+  "movieId": 1,
+  "userId": 1,
+  "rating": 9.0,
+  "reviewText": "Updated review text."
+}
+
+### Delete a review (Success)
+DELETE http://localhost:8080/api/reviews/1
+
+### Delete a review (Failure - review not found)
+DELETE http://localhost:8080/api/reviews/999
