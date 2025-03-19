@@ -1,0 +1,47 @@
+### Get all movie statuses for a user
+GET http://localhost:8080/api/user-movie-status/user/1
+
+### Get all user statuses for a movie
+GET http://localhost:8080/api/user-movie-status/movie/1
+
+### Get a user's status for a movie (Success)
+GET http://localhost:8080/api/user-movie-status/1/1
+
+### Get a user's status for a movie (Failure - status not found)
+GET http://localhost:8080/api/user-movie-status/1/999
+
+### Add a new movie status (Success)
+POST http://localhost:8080/api/user-movie-status
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "movieId": 1,
+  "status": "WATCHED"
+}
+
+### Add a movie status (Failure - invalid status)
+POST http://localhost:8080/api/user-movie-status
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "movieId": 1,
+  "status": "INVALID_STATUS"
+}
+
+### Update a movie status (Success)
+POST http://localhost:8080/api/user-movie-status
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "movieId": 1,
+  "status": "WATCHING"
+}
+
+### Delete a movie status (Success)
+DELETE http://localhost:8080/api/user-movie-status/1
+
+### Delete a movie status (Failure - status not found)
+DELETE http://localhost:8080/api/user-movie-status/999
