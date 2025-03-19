@@ -1,0 +1,42 @@
+### Get all genres
+GET http://localhost:8080/api/genres
+
+### Get a genre by ID (Success)
+GET http://localhost:8080/api/genres/1
+
+### Get a genre by ID (Failure - genre not found)
+GET http://localhost:8080/api/genres/999
+
+### Add a new genre (Success)
+POST http://localhost:8080/api/genres
+Content-Type: application/json
+
+{
+  "name": "Action"
+}
+
+### Add a new genre (Failure - missing name)
+POST http://localhost:8080/api/genres
+Content-Type: application/json
+
+{
+  "name": ""
+}
+
+### Delete a genre (Success)
+DELETE http://localhost:8080/api/genres/1
+
+### Delete a genre (Failure - genre not found)
+DELETE http://localhost:8080/api/genres/999
+
+### Get all genres for a movie
+GET http://localhost:8080/api/genres/movie/1
+
+### Add a genre to a movie (Success)
+POST http://localhost:8080/api/genres/movie/1/2
+
+### Remove a genre from a movie (Success)
+DELETE http://localhost:8080/api/genres/movie/1/2
+
+### Remove a genre from a movie (Failure - genre not found)
+DELETE http://localhost:8080/api/genres/movie/1/999

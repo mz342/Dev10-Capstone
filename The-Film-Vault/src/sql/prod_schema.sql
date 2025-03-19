@@ -43,3 +43,16 @@ CREATE TABLE UserMovieStatus (
     FOREIGN KEY (movie_id) REFERENCES Movies(id) ON DELETE CASCADE,
     UNIQUE (user_id, movie_id) 
 );
+
+CREATE TABLE Genres (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE MovieGenres (
+    movie_id INT NOT NULL,
+    genre_id INT NOT NULL,
+    PRIMARY KEY (movie_id, genre_id),
+    FOREIGN KEY (movie_id) REFERENCES Movies(id) ON DELETE CASCADE,
+    FOREIGN KEY (genre_id) REFERENCES Genres(id) ON DELETE CASCADE
+);
