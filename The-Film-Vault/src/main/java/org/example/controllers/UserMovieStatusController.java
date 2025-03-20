@@ -21,25 +21,32 @@ public class UserMovieStatusController {
         this.userMovieStatusService = userMovieStatusService;
     }
 
+    //  Get all statuses for a user
     @GetMapping("/user/{userId}")
     public List<UserMovieStatus> findAllByUserId(@PathVariable int userId) {
         return userMovieStatusService.findAllByUserId(userId);
     }
 
+    //  Get all users who marked a movie
     @GetMapping("/movie/{movieId}")
     public List<UserMovieStatus> findAllByMovieId(@PathVariable int movieId) {
         return userMovieStatusService.findAllByMovieId(movieId);
     }
 
+    //  Find if a specific user has marked a movie
     @GetMapping("/{userId}/{movieId}")
     public ResponseEntity<Object> findByUserAndMovie(@PathVariable int userId, @PathVariable int movieId) {
         Result<UserMovieStatus> result = userMovieStatusService.findByUserAndMovie(userId, movieId);
+
         if (result.isSuccess()) {
             return ResponseEntity.ok(result.getPayload());
         }
-        return ErrorResponse.build(result);
+
+        //  Instead of error, return { "status": "NONE" } to prevent frontend issues
+        return ResponseEntity.ok("{\"status\": \"NONE\"}");
     }
 
+    //  Save or update watchlist/watched status
     @PostMapping
     public ResponseEntity<Object> save(@RequestBody UserMovieStatus status) {
         Result<UserMovieStatus> result = userMovieStatusService.save(status);
@@ -49,6 +56,7 @@ public class UserMovieStatusController {
         return ErrorResponse.build(result);
     }
 
+    //  Remove a movie from watchlist/watched list
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable int id) {
         Result<UserMovieStatus> result = userMovieStatusService.deleteById(id);

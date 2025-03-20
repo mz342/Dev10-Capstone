@@ -21,10 +21,15 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
 
-    @GetMapping("/movie/{movieId}")
-    public List<Review> findAllByMovieId(@PathVariable int movieId) {
-        return reviewService.findAllByMovieId(movieId);
+    @GetMapping("/movie/{movieId}") //
+    public ResponseEntity<List<Review>> findAllByMovieId(@PathVariable int movieId) {
+        List<Review> reviews = reviewService.findAllByMovieId(movieId);
+        if (reviews.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(reviews);
     }
+
 
     @GetMapping("/user/{userId}")
     public List<Review> findAllByUserId(@PathVariable int userId) {

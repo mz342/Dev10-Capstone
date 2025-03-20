@@ -1,17 +1,17 @@
 ### Get all movie statuses for a user
-GET http://localhost:8080/api/user-movie-status/user/1
+GET http://localhost:8080/api/usermoviestatus/user/1
 
 ### Get all user statuses for a movie
-GET http://localhost:8080/api/user-movie-status/movie/1
+GET http://localhost:8080/api/usermoviestatus/movie/1
 
 ### Get a user's status for a movie (Success)
-GET http://localhost:8080/api/user-movie-status/1/1
+GET http://localhost:8080/api/usermoviestatus/1/1
 
-### Get a user's status for a movie (Failure - status not found)
-GET http://localhost:8080/api/user-movie-status/1/999
+### Get a user's status for a movie (No status - returns { "status": "NONE" })
+GET http://localhost:8080/api/usermoviestatus/1/999
 
 ### Add a new movie status (Success)
-POST http://localhost:8080/api/user-movie-status
+POST http://localhost:8080/api/usermoviestatus
 Content-Type: application/json
 
 {
@@ -21,7 +21,7 @@ Content-Type: application/json
 }
 
 ### Add a movie status (Failure - invalid status)
-POST http://localhost:8080/api/user-movie-status
+POST http://localhost:8080/api/usermoviestatus
 Content-Type: application/json
 
 {
@@ -31,7 +31,7 @@ Content-Type: application/json
 }
 
 ### Update a movie status (Success)
-POST http://localhost:8080/api/user-movie-status
+POST http://localhost:8080/api/usermoviestatus
 Content-Type: application/json
 
 {
@@ -41,7 +41,7 @@ Content-Type: application/json
 }
 
 ### Delete a movie status (Success)
-DELETE http://localhost:8080/api/user-movie-status/1
+DELETE http://localhost:8080/api/usermoviestatus/1
 
 ### Delete a movie status (Failure - status not found)
-DELETE http://localhost:8080/api/user-movie-status/999
+DELETE http://localhost:8080/api/usermoviestatus/999
