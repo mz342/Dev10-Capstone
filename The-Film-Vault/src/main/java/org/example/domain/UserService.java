@@ -23,6 +23,23 @@ public class UserService {
             return result;
         }
 
+        // Ensure email is provided
+        if (user.getEmail() == null || user.getEmail().isBlank()) {
+            result.addMessage("Email is required.", ResultType.INVALID);
+            return result;
+        }
+
+        // Ensure password is provided
+        if (user.getPasswordHash() == null || user.getPasswordHash().isBlank()) {
+            result.addMessage("Password is required.", ResultType.INVALID);
+            return result;
+        }
+
+        // Ensure user role is set (default to "USER" if missing)
+        if (user.getRole() == null) {
+            user.setRole(User.Role.USER);
+        }
+
         if (!userRepository.create(user)) {
             result.addMessage("User could not be created.", ResultType.INVALID);
             return result;
@@ -31,6 +48,8 @@ public class UserService {
         result.setPayload(user);
         return result;
     }
+
+
 
     public Result<User> authenticate(String username, String password) {
         Result<User> result = new Result<>();
