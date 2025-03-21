@@ -44,6 +44,16 @@ export default function Navbar() {
             <li className="nav-item">
               <Link className="nav-link" to="/genres">Genres</Link>
             </li>
+            {user && (
+              <>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/watchlist">Watchlist</Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/watched">Watched Movies</Link>
+                </li>
+              </>
+            )}
             {user ? (
               <li className="nav-item">
                 <button className="btn btn-danger ms-3" onClick={handleLogout}>Logout</button>

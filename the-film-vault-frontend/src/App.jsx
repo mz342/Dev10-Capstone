@@ -5,6 +5,8 @@ import Home from "./pages/Home";
 import MovieDetails from "./pages/MovieDetails";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import Watchlist from "./pages/Watchlist";
+import WatchedMovies from "./pages/WatchedMovies";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -25,6 +27,8 @@ export default function App() {
           <Route path="/movies/:id" element={<MovieDetails />} />
           <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/watchlist" element={<Watchlist />} />
+          <Route path="/watched" element={<WatchedMovies />} />
         </Routes>
       </div>
     </>
