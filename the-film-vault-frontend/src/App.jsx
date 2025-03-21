@@ -6,7 +6,7 @@ import MovieDetails from "./pages/MovieDetails";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Watchlist from "./pages/Watchlist";
-import WatchedMovies from "./pages/WatchedMovies";
+import WatchedMovies from "./pages/Watchedmovies";
 
 export default function App() {
   const [user, setUser] = useState(null);
