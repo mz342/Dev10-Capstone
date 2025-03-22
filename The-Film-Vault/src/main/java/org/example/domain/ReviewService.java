@@ -74,8 +74,8 @@ public class ReviewService {
     private Result<Review> validate(Review review) {
         Result<Review> result = new Result<>();
 
-        if (review.getRating() < 0 || review.getRating() > 10) {
-            result.addMessage("Rating must be between 0 and 10.", ResultType.INVALID);
+        if (review.getRating() < 1 || review.getRating() > 10) {
+            result.addMessage("Rating must be between 1 and 10.", ResultType.INVALID);
         }
 
         if (review.getReviewText() == null || review.getReviewText().isBlank()) {
