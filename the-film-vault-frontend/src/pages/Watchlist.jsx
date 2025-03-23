@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { getPosterUrl } from "../api/tmdb";
 
 export default function Watchlist() {
   const [watchlist, setWatchlist] = useState([]);
@@ -64,13 +65,13 @@ export default function Watchlist() {
         <div className="row">
           {watchlist.map((movie) => (
             <div key={movie.movieId} className="col-md-3 mb-4">
-              <div className="card">
-                <img 
-                  src={movie.poster || "https://via.placeholder.com/300x450?text=No+Image"} 
-                  className="card-img-top" 
-                  alt={movie.title} 
-                />
-                <div className="card-body">
+  <div className="card h-100 shadow-sm">
+  <img
+    src={getPosterUrl(movie.poster)}
+    alt={movie.title || "Movie Poster"}
+    className="card-img-top"
+  />
+  <div className="card-body d-flex flex-column justify-content-between">
                   <h5 className="card-title">{movie.title}</h5>
                   <button className="btn btn-danger btn-sm" onClick={() => handleRemove(movie.movieId)}>
                     Remove from Watchlist

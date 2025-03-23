@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { getPosterUrl } from "../api/tmdb";
 
 export default function WatchedMovies() {
   const [movies, setMovies] = useState([]);
@@ -9,7 +10,7 @@ export default function WatchedMovies() {
     if (!user) return;
 
     fetch(`http://localhost:8080/api/user-movie-status/user/${user.id}`, {
-        credentials: "include"
+      credentials: "include"
     })
       .then((res) => res.json())
       .then((data) => {
@@ -30,16 +31,16 @@ export default function WatchedMovies() {
       ) : (
         <div className="row">
           {movies.map((movie) => (
-            <div key={movie.movieId} className="col-md-3">
-              <div className="card mb-3">
+            <div key={movie.movieId} className="col-md-3 mb-4">
+              <div className="card h-100 shadow-sm">
                 <img
-                  src={movie.poster || "https://via.placeholder.com/150"}
+                  src={getPosterUrl(movie.poster)}
                   alt={movie.title}
                   className="card-img-top"
                 />
-                <div className="card-body">
+                <div className="card-body d-flex flex-column justify-content-between">
                   <h5 className="card-title">{movie.title}</h5>
-                  <Link to={`/movies/${movie.movieId}`} className="btn btn-primary">
+                  <Link to={`/movies/${movie.movieId}`} className="btn btn-primary btn-sm mt-2">
                     View Details
                   </Link>
                 </div>

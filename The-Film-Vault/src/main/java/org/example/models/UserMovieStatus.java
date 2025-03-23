@@ -16,6 +16,9 @@ public class UserMovieStatus {
     private Status status;
     private LocalDateTime updatedAt;
 
+    private String title;
+    private String poster;
+
     // Constructors
     public UserMovieStatus() {
     }
@@ -28,6 +31,7 @@ public class UserMovieStatus {
         this.updatedAt = updatedAt;
     }
 
+    // Getters and setters
     public int getId() {
         return id;
     }
@@ -68,6 +72,22 @@ public class UserMovieStatus {
         this.updatedAt = updatedAt;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getPoster() {
+        return poster;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
+    }
+
     @Override
     public String toString() {
         return "UserMovieStatus{" +
@@ -76,6 +96,8 @@ public class UserMovieStatus {
                 ", movieId=" + movieId +
                 ", status=" + status +
                 ", updatedAt=" + updatedAt +
+                ", title='" + title + '\'' +
+                ", poster='" + poster + '\'' +
                 '}';
     }
 }

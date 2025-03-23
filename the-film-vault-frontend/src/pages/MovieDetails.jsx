@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { getPosterUrl } from "../api/tmdb";
 
 export default function MovieDetails() {
   const { id } = useParams();
@@ -166,11 +167,11 @@ export default function MovieDetails() {
       <div className="row">
         {/* Movie Poster */}
         <div className="col-md-4">
-          <img
-            src={movie.poster || "https://via.placeholder.com/300x450?text=No+Image"}
+        <img
+            src={getPosterUrl(movie.poster)}
             alt={movie.title}
             className="img-fluid rounded shadow"
-          />
+            />
         </div>
 
         {/* Movie Details */}
@@ -178,7 +179,7 @@ export default function MovieDetails() {
           <h1>{movie.title}</h1>
           <p className="lead">{movie.description}</p>
           <p><strong>Director:</strong> {movie.director}</p>
-          <p><strong>Release Year:</strong> {movie.release_year}</p>
+          <p><strong>Release Year:</strong> {movie.releaseYear}</p>
           <p><strong>Rating:</strong> {averageRating}/10</p> {/*  Displays avg rating */}
 
          {/* Watchlist / Watched Buttons */}
