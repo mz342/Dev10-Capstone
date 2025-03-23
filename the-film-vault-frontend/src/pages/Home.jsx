@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchMovies } from "../api/movies";
 import { Link } from "react-router-dom";
+import { getPosterUrl } from "../api/tmdb";
 
 export default function Home() {
   const [movies, setMovies] = useState([]);
@@ -99,10 +100,14 @@ export default function Home() {
           filteredMovies.map((movie) => (
             <div key={movie.id} className="col-md-4 mb-4">
               <div className="card shadow-sm">
-                <img
-                  src={movie.poster || "https://via.placeholder.com/300x450?text=No+Image"}
-                  alt={movie.title}
-                  className="card-img-top"
+              <img
+                src={
+                movie.poster?.startsWith("http")
+                ? movie.poster // use full URL from DB if present
+                : getPosterUrl(movie.poster || movie.poster_path)
+                }
+                alt={movie.title}
+                className="card-img-top"
                 />
                 <div className="card-body">
                   <h5 className="card-title">{movie.title}</h5>
