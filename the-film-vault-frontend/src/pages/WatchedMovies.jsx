@@ -8,7 +8,9 @@ export default function WatchedMovies() {
   useEffect(() => {
     if (!user) return;
 
-    fetch(`http://localhost:8080/api/user-movie-status/user/${user.id}`)
+    fetch(`http://localhost:8080/api/user-movie-status/user/${user.id}`, {
+        credentials: "include"
+    })
       .then((res) => res.json())
       .then((data) => {
         // Filter for only watched movies

@@ -7,8 +7,8 @@ export default function MovieDetails() {
   const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState("");
   const [status, setStatus] = useState(null);
-  const [rating, setRating] = useState(0); // ⭐ Stores the user's selected rating
-  const [averageRating, setAverageRating] = useState(0); // ⭐ Stores movie's avg rating
+  const [rating, setRating] = useState(0); //  Stores the user's selected rating
+  const [averageRating, setAverageRating] = useState(0); //  Stores movie's avg rating
   const [selectedRating, setSelectedRating] = useState(null);
 
 
@@ -27,9 +27,9 @@ export default function MovieDetails() {
         console.log("Fetched Reviews from API:", data); // Debugging log
   
         if (Array.isArray(data)) {
-          setReviews(data); // ✅ Set reviews
+          setReviews(data); //  Set reviews
   
-          // ✅ Calculate average rating
+          //  Calculate average rating
           if (data.length > 0) {
             const avg = data.reduce((sum, r) => sum + r.rating, 0) / data.length;
             setAverageRating(avg.toFixed(1)); // Store as 1 decimal place
@@ -47,10 +47,15 @@ export default function MovieDetails() {
     // Fetch user movie status (Watchlist/Watched)
     const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
-      fetch(`http://localhost:8080/api/user-movie-status/${user.id}/${id}`)
+      fetch(`http://localhost:8080/api/user-movie-status/${user.id}/${id}`,{
+        credentials: "include"
+      }
+        
+      )
         .then((res) => res.json())
         .then((data) => setStatus(data.status))
         .catch(() => setStatus(null)); // Default to null if no status
+        
     }
   }, [id]);
   
@@ -62,36 +67,37 @@ export default function MovieDetails() {
       userId: user.id,
       movieId: id,
       reviewText: newReview,
-      rating: selectedRating, // ✅ Include rating input
+      rating: selectedRating, //  Include rating input
     };
 
-    console.log("Submitting Review:", reviewPayload); // ✅ Debugging log
+    console.log("Submitting Review:", reviewPayload); //  Debugging log
 
     const response = await fetch("http://localhost:8080/api/reviews", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(reviewPayload),
+      credentials: "include"
     });
 
     if (!response.ok) {
-      const errorText = await response.text(); // ✅ Capture backend error message
+      const errorText = await response.text(); //  Capture backend error message
       console.error("Failed to submit review:", errorText);
       return;
     }
 
     console.log("Review added successfully!");
-    setNewReview(""); // ✅ Clear input field
-    setSelectedRating(null); // ✅ Reset rating selection after submission
+    setNewReview(""); //  Clear input field
+    setSelectedRating(null); //  Reset rating selection after submission
 
-    // ✅ Fetch updated reviews and recalculate average rating
+    //  Fetch updated reviews and recalculate average rating
     fetch(`http://localhost:8080/api/reviews/movie/${id}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log("Updated Reviews After Submission:", data); // ✅ Debugging log
+        console.log("Updated Reviews After Submission:", data);
         if (Array.isArray(data)) {
-          setReviews(data); // ✅ Properly updates the state with the latest reviews
+          setReviews(data); //  Properly updates the state with the latest reviews
 
-          // ✅ Recalculate average rating
+          //  Recalculate average rating
           if (data.length > 0) {
             const avg = data.reduce((sum, r) => sum + r.rating, 0) / data.length;
             setAverageRating(avg.toFixed(1));
@@ -132,12 +138,13 @@ export default function MovieDetails() {
       status: backendStatus, 
     };
   
-    console.log("Submitting Movie Status Update:", statusPayload); //  Debugging log
+    console.log("Submitting Movie Status Update:", statusPayload); 
   
     const response = await fetch("http://localhost:8080/api/user-movie-status", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(statusPayload),
+      credentials: "include"
     });
   
     if (!response.ok) {
@@ -172,7 +179,7 @@ export default function MovieDetails() {
           <p className="lead">{movie.description}</p>
           <p><strong>Director:</strong> {movie.director}</p>
           <p><strong>Release Year:</strong> {movie.release_year}</p>
-          <p><strong>Rating:</strong> {averageRating}/10</p> {/* ✅ Displays avg rating */}
+          <p><strong>Rating:</strong> {averageRating}/10</p> {/*  Displays avg rating */}
 
          {/* Watchlist / Watched Buttons */}
         <div className="mt-3">
