@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:5173")
+//@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/user-movie-status")
 public class UserMovieStatusController {
@@ -42,7 +42,6 @@ public class UserMovieStatusController {
             return ResponseEntity.ok(result.getPayload());
         }
 
-        //  Instead of error, return { "status": "NONE" } to prevent frontend issues
         return ResponseEntity.ok("{\"status\": \"NONE\"}");
     }
 

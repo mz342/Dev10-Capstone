@@ -6,11 +6,13 @@ import org.example.domain.UserService;
 import org.example.models.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:5173")
+//@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -48,4 +50,27 @@ public class UserController {
         }
         return ErrorResponse.build(result);
     }
+
+
+    @GetMapping("/me")
+    public ResponseEntity<User> getCurrentUser(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        if (authentication instanceof OAuth2AuthenticationToken oauthToken) {
+            String email = oauthToken.getPrincipal().getAttribute("email");
+            Optional<User> user = userService.findByEmail(email);
+            return user.map(ResponseEntity::ok)
+                    .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        }
+
+        // Fallback for regular login-based users
+        String username = authentication.getName();
+        Optional<User> user = userService.findByUsername(username);
+        return user.map(ResponseEntity::ok)
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+
 }

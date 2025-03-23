@@ -57,4 +57,22 @@ public class UserJdbcClientRepository implements UserRepository {
                 .params(user.getUsername(), user.getEmail(), user.getPasswordHash(), user.getRole().name())
                 .update() > 0;
     }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        final String sql = "SELECT * FROM Users WHERE email = ?;";
+
+        return jdbcClient.sql(sql)
+                .param(email)
+                .query((rs, rowNum) -> new User(
+                        rs.getInt("id"),
+                        rs.getString("username"),
+                        rs.getString("email"),
+                        rs.getString("password_hash"),
+                        User.Role.valueOf(rs.getString("role")),
+                        rs.getTimestamp("created_at").toLocalDateTime()
+                ))
+                .optional();
+    }
+
 }

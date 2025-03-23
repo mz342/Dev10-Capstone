@@ -67,4 +67,39 @@ public class UserService {
     public Optional<User> findById(int id) {
         return userRepository.findById(id);
     }
+
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    public Result<User> registerGoogleUser(User user) {
+        Result<User> result = new Result<>();
+
+        if (user.getEmail() == null || user.getEmail().isBlank()) {
+            result.addMessage("Email is required.", ResultType.INVALID);
+            return result;
+        }
+
+        if (user.getUsername() == null || user.getUsername().isBlank()) {
+            user.setUsername(user.getEmail().split("@")[0]); // fallback
+        }
+
+        if (user.getRole() == null) {
+            user.setRole(User.Role.USER);
+        }
+
+        if (!userRepository.create(user)) {
+            result.addMessage("Google user could not be created.", ResultType.INVALID);
+        } else {
+            result.setPayload(user);
+        }
+
+        return result;
+    }
+
+
 }

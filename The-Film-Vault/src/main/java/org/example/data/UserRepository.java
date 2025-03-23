@@ -7,4 +7,5 @@ public interface UserRepository {
     Optional<User> findByUsername(String username);
     Optional<User> findById(int id);
     boolean create(User user);
+    Optional<User> findByEmail(String email);
 }
