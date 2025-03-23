@@ -10,18 +10,21 @@ public class Movie {
     private String director;
     private double rating;
     private LocalDateTime createdAt;
+    private String poster;
+
 
     // Constructors
     public Movie() {
     }
 
-    public Movie(int id, String title, String description, int releaseYear, String director, double rating, LocalDateTime createdAt) {
+    public Movie(int id, String title, String description, int releaseYear, String director, double rating, String poster, LocalDateTime createdAt) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.releaseYear = releaseYear;
         this.director = director;
         this.rating = rating;
+        this.poster = poster;
         this.createdAt = createdAt;
     }
 
@@ -82,7 +85,14 @@ public class Movie {
         this.createdAt = createdAt;
     }
 
-    // toString for debugging
+    public String getPoster() {
+        return poster;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
+    }
+
     @Override
     public String toString() {
         return "Movie{" +
@@ -93,6 +103,7 @@ public class Movie {
                 ", director='" + director + '\'' +
                 ", rating=" + rating +
                 ", createdAt=" + createdAt +
+                ", poster='" + poster + '\'' +
                 '}';
     }
 }

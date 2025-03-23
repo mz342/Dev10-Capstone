@@ -27,6 +27,7 @@ public class MovieJdbcClientRepository implements MovieRepository {
                         rs.getInt("release_year"),
                         rs.getString("director"),
                         rs.getDouble("rating"),
+                        rs.getString("poster"), // ✅ Poster column now included
                         rs.getTimestamp("created_at").toLocalDateTime()
                 ))
                 .list();
@@ -45,6 +46,7 @@ public class MovieJdbcClientRepository implements MovieRepository {
                         rs.getInt("release_year"),
                         rs.getString("director"),
                         rs.getDouble("rating"),
+                        rs.getString("poster"), // ✅ Poster column now included
                         rs.getTimestamp("created_at").toLocalDateTime()
                 ))
                 .optional();
@@ -52,21 +54,23 @@ public class MovieJdbcClientRepository implements MovieRepository {
 
     @Override
     public boolean create(Movie movie) {
-        final String sql = "INSERT INTO Movies (title, description, release_year, director, rating) " +
-                "VALUES (?, ?, ?, ?, ?);";
+        final String sql = "INSERT INTO Movies (title, description, release_year, director, rating, poster) " +
+                "VALUES (?, ?, ?, ?, ?, ?);";
 
         return jdbcClient.sql(sql)
-                .params(movie.getTitle(), movie.getDescription(), movie.getReleaseYear(), movie.getDirector(), movie.getRating())
+                .params(movie.getTitle(), movie.getDescription(), movie.getReleaseYear(),
+                        movie.getDirector(), movie.getRating(), movie.getPoster()) // ✅ Added poster
                 .update() > 0;
     }
 
     @Override
     public boolean update(Movie movie) {
         final String sql = "UPDATE Movies SET title = ?, description = ?, release_year = ?, " +
-                "director = ?, rating = ? WHERE id = ?;";
+                "director = ?, rating = ?, poster = ? WHERE id = ?;";
 
         return jdbcClient.sql(sql)
-                .params(movie.getTitle(), movie.getDescription(), movie.getReleaseYear(), movie.getDirector(), movie.getRating(), movie.getId())
+                .params(movie.getTitle(), movie.getDescription(), movie.getReleaseYear(),
+                        movie.getDirector(), movie.getRating(), movie.getPoster(), movie.getId()) // ✅ Added poster
                 .update() > 0;
     }
 

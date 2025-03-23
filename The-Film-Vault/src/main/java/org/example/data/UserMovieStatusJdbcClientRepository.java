@@ -18,17 +18,27 @@ public class UserMovieStatusJdbcClientRepository implements UserMovieStatusRepos
 
     @Override
     public List<UserMovieStatus> findAllByUserId(int userId) {
-        final String sql = "SELECT * FROM UserMovieStatus WHERE user_id = ?;";
+        final String sql = """
+            SELECT ums.*, m.title, m.poster
+            FROM UserMovieStatus ums
+            JOIN Movies m ON ums.movie_id = m.id
+            WHERE ums.user_id = ?;
+        """;
 
         return jdbcClient.sql(sql)
                 .param(userId)
-                .query((rs, rowNum) -> new UserMovieStatus(
-                        rs.getInt("id"),
-                        rs.getInt("user_id"),
-                        rs.getInt("movie_id"),
-                        UserMovieStatus.Status.valueOf(rs.getString("status")),
-                        rs.getTimestamp("updated_at").toLocalDateTime()
-                ))
+                .query((rs, rowNum) -> {
+                    UserMovieStatus status = new UserMovieStatus(
+                            rs.getInt("id"),
+                            rs.getInt("user_id"),
+                            rs.getInt("movie_id"),
+                            UserMovieStatus.Status.valueOf(rs.getString("status")),
+                            rs.getTimestamp("updated_at").toLocalDateTime()
+                    );
+                    status.setTitle(rs.getString("title"));
+                    status.setPoster(rs.getString("poster"));
+                    return status;
+                })
                 .list();
     }
 
@@ -66,8 +76,11 @@ public class UserMovieStatusJdbcClientRepository implements UserMovieStatusRepos
 
     @Override
     public boolean save(UserMovieStatus status) {
-        final String sql = "INSERT INTO UserMovieStatus (user_id, movie_id, status) " +
-                "VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE status = VALUES(status), updated_at = CURRENT_TIMESTAMP;";
+        final String sql = """
+            INSERT INTO UserMovieStatus (user_id, movie_id, status)
+            VALUES (?, ?, ?)
+            ON DUPLICATE KEY UPDATE status = VALUES(status), updated_at = CURRENT_TIMESTAMP;
+        """;
 
         return jdbcClient.sql(sql)
                 .params(status.getUserId(), status.getMovieId(), status.getStatus().name())
@@ -77,9 +90,6 @@ public class UserMovieStatusJdbcClientRepository implements UserMovieStatusRepos
     @Override
     public boolean deleteById(int id) {
         final String sql = "DELETE FROM UserMovieStatus WHERE id = ?;";
-
-        return jdbcClient.sql(sql)
-                .param(id)
-                .update() > 0;
+        return jdbcClient.sql(sql).param(id).update() > 0;
     }
 }
