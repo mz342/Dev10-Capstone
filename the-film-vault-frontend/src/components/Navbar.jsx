@@ -7,10 +7,29 @@ export default function Navbar() {
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
+  
     if (storedUser) {
-      setUser(JSON.parse(storedUser)); // Loads user on first render
+      setUser(JSON.parse(storedUser));
+    } else {
+      //  Check if the user is logged in via Google session
+      fetch("http://localhost:8080/api/user/me", {
+        credentials: "include", 
+      })
+        .then((res) => {
+          if (res.ok) return res.json();
+          throw new Error("No session user");
+        })
+        .then((userData) => {
+          localStorage.setItem("user", JSON.stringify(userData));
+          setUser(userData);
+        })
+        .catch(() => {
+          // User is not logged in via Google or session expired
+          setUser(null);
+        });
     }
   }, []);
+  
 
   const handleLogout = () => {
     //  Clear localStorage & Update State

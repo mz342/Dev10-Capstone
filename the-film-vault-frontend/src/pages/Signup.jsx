@@ -24,6 +24,7 @@ export default function Signup() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, email, passwordHash: password }), 
+      credentials: "include",
     });
 
     if (response.ok) {

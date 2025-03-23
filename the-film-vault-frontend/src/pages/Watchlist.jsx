@@ -7,7 +7,9 @@ export default function Watchlist() {
   useEffect(() => {
     if (!user) return;
 
-    fetch(`http://localhost:8080/api/user-movie-status/user/${user.id}`)
+    fetch(`http://localhost:8080/api/user-movie-status/user/${user.id}`, {
+        credentials: "include"
+    })
       .then((res) => res.json())
       .then((data) => {
         // Filter movies that are in the "WANT_TO_WATCH" status
@@ -21,7 +23,9 @@ export default function Watchlist() {
     if (!user) return;
   
     // Fetch the status ID first
-    const response = await fetch(`http://localhost:8080/api/user-movie-status/${user.id}/${movieId}`);
+    const response = await fetch(`http://localhost:8080/api/user-movie-status/${user.id}/${movieId}`, {
+        credentials: "include"
+    });
   
     if (!response.ok) {
       console.error("Failed to find movie status for removal.");
@@ -37,6 +41,7 @@ export default function Watchlist() {
   
     // Now delete by status ID
     const deleteResponse = await fetch(`http://localhost:8080/api/user-movie-status/${data.id}`, {
+      credentials: "include",
       method: "DELETE",
     });
   

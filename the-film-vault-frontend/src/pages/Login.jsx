@@ -15,6 +15,7 @@ export default function Login({ setUser }) { //  Accept setUser prop
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, passwordHash: password }),
+      credentials: "include",
     });
 
     if (response.ok) {
@@ -54,6 +55,20 @@ export default function Login({ setUser }) { //  Accept setUser prop
         </div>
         <button type="submit" className="btn btn-primary w-100">Login</button>
       </form>
+
+      {/* Google OAuth Button */}
+<div className="text-center mt-4">
+  <p>or</p>
+  <a
+    className="btn btn-outline-danger w-100"
+    href="http://localhost:8080/oauth2/authorization/google"
+  >
+    <i className="bi bi-google me-2"></i> Sign in with Google
+  </a>
+</div>
+
     </div>
+
+    
   );
 }

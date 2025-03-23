@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Watchlist from "./pages/Watchlist";
 import WatchedMovies from "./pages/Watchedmovies";
+import OAuthSuccess from "./pages/OAuthSuccess";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -29,6 +30,7 @@ export default function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/watchlist" element={<Watchlist />} />
           <Route path="/watched" element={<WatchedMovies />} />
+          <Route path="/oauth-success" element={<OAuthSuccess setUser={setUser} />} />
         </Routes>
       </div>
     </>
