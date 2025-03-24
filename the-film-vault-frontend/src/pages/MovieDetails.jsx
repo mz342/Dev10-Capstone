@@ -11,6 +11,8 @@ export default function MovieDetails() {
   const [rating, setRating] = useState(0); //  Stores the user's selected rating
   const [averageRating, setAverageRating] = useState(0); //  Stores movie's avg rating
   const [selectedRating, setSelectedRating] = useState(null);
+  const [genres, setGenres] = useState([]);
+
 
 
 
@@ -20,6 +22,13 @@ export default function MovieDetails() {
       .then((res) => res.json())
       .then(setMovie)
       .catch((error) => console.error("Error fetching movie:", error));
+
+      // Fetch genres for the movie
+    fetch(`http://localhost:8080/api/genres/movie/${id}`)
+    .then((res) => res.json())
+    .then(setGenres)
+    .catch((err) => console.error("Error fetching genres:", err));
+
   
     // Fetch reviews and calculate average rating
     fetch(`http://localhost:8080/api/reviews/movie/${id}`)
@@ -179,6 +188,11 @@ export default function MovieDetails() {
           <h1>{movie.title}</h1>
           <p className="lead">{movie.description}</p>
           <p><strong>Director:</strong> {movie.director}</p>
+          <p>
+            <strong>Genre:</strong>{" "}
+            {genres.length > 0 ? genres.map((g) => g.name).join(", ") : "N/A"}
+         </p>
+
           <p><strong>Release Year:</strong> {movie.releaseYear}</p>
           <p><strong>Rating:</strong> {averageRating}/10</p> {/*  Displays avg rating */}
 

@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { fetchMovies } from "../api/movies";
 import { Link } from "react-router-dom";
 import { getPosterUrl } from "../api/tmdb";
+import { fetchGenres } from "../api/genres"; 
+
 
 export default function Home() {
   const [movies, setMovies] = useState([]);
