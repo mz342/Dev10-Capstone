@@ -8,6 +8,9 @@ import Signup from "./pages/Signup";
 import Watchlist from "./pages/Watchlist";
 import WatchedMovies from "./pages/Watchedmovies";
 import OAuthSuccess from "./pages/OAuthSuccess";
+import "./index.css"; 
+import "./app.css";
+
 
 export default function App() {
   const [user, setUser] = useState(null);

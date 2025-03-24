@@ -45,7 +45,7 @@ export default function Navbar() {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div className="container">
+      <div className="container-fluid">
         <Link className="navbar-brand" to="/">🎬 The Film Vault</Link>
         <button 
           className="navbar-toggler" 

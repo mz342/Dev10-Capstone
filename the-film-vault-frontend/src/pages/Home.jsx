@@ -5,6 +5,8 @@ import { getPosterUrl } from "../api/tmdb";
 import { fetchGenres } from "../api/genres"; 
 
 
+
+
 export default function Home() {
   const [movies, setMovies] = useState([]);
   const [filteredMovies, setFilteredMovies] = useState([]);
@@ -58,12 +60,16 @@ export default function Home() {
 
   return (
     <div className="container mt-5">
-      <h1 className="text-center mb-4">🎬 Movies</h1>
-
+      <h1 className="text-center mb-3 display-5 fw-bold">
+        🎬 Movies
+      </h1>
+      <h2 className="text-center text-primary mb-4">The Film Vault</h2>
+  
       {/* Filter Section */}
-      <div className="row mb-4">
+      <div className="row g-3 mb-4 align-items-end">
         {/* Search Bar */}
         <div className="col-md-4">
+          <label className="form-label fw-semibold">Search</label>
           <input
             type="text"
             className="form-control"
@@ -72,24 +78,27 @@ export default function Home() {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-
+  
         {/* Genre Filter */}
-        <select
-  className="form-select"
-  value={selectedGenre}
-  onChange={(e) => setSelectedGenre(e.target.value)}
->
-  <option value="">All Genres</option>
-  {allGenres.map((genre) => (
-    <option key={genre.id} value={genre.name}>
-      {genre.name}
-    </option>
-  ))}
-</select>
-
-
+        <div className="col-md-4">
+          <label className="form-label fw-semibold">Filter by Genre</label>
+          <select
+            className="form-select"
+            value={selectedGenre}
+            onChange={(e) => setSelectedGenre(e.target.value)}
+          >
+            <option value="">All Genres</option>
+            {allGenres.map((genre) => (
+              <option key={genre.id} value={genre.name}>
+                {genre.name}
+              </option>
+            ))}
+          </select>
+        </div>
+  
         {/* Year Filter */}
         <div className="col-md-4">
+          <label className="form-label fw-semibold">Filter by Year</label>
           <select
             className="form-select"
             value={selectedYear}
@@ -104,26 +113,28 @@ export default function Home() {
           </select>
         </div>
       </div>
-
+  
       {/* Movie Cards */}
       <div className="row">
         {filteredMovies.length > 0 ? (
           filteredMovies.map((movie) => (
             <div key={movie.id} className="col-md-4 mb-4">
-              <div className="card shadow-sm">
-              <img
-                src={
-                movie.poster?.startsWith("http")
-                ? movie.poster // use full URL from DB if present
-                : getPosterUrl(movie.poster || movie.poster_path)
-                }
-                alt={movie.title}
-                className="card-img-top"
+              <div className="card h-100 shadow-sm border-0">
+                <img
+                  src={
+                    movie.poster?.startsWith("http")
+                      ? movie.poster
+                      : getPosterUrl(movie.poster || movie.poster_path)
+                  }
+                  alt={movie.title}
+                  className="card-img-top"
                 />
-                <div className="card-body">
+                <div className="card-body d-flex flex-column justify-content-between">
                   <h5 className="card-title">{movie.title}</h5>
-                  <p className="card-text">{movie.description.slice(0, 100)}...</p>
-                  <Link to={`/movies/${movie.id}`} className="btn btn-primary">
+                  <p className="card-text text-muted">
+                    {movie.description.slice(0, 100)}...
+                  </p>
+                  <Link to={`/movies/${movie.id}`} className="btn btn-primary mt-auto">
                     View Details
                   </Link>
                 </div>
@@ -136,4 +147,5 @@ export default function Home() {
       </div>
     </div>
   );
+  
 }
