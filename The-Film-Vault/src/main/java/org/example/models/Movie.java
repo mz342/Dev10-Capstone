@@ -1,6 +1,7 @@
 package org.example.models;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Movie {
     private int id;
@@ -11,6 +12,7 @@ public class Movie {
     private double rating;
     private LocalDateTime createdAt;
     private String poster;
+    private List<Genre> genres;
 
 
     // Constructors
@@ -91,6 +93,14 @@ public class Movie {
 
     public void setPoster(String poster) {
         this.poster = poster;
+    }
+
+    public List<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
     }
 
     @Override

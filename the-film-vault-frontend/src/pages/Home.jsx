@@ -20,8 +20,14 @@ export default function Home() {
   }, []);
 
   // Extract unique genres and years
-  const genres = [...new Set(movies.map((movie) => movie.genre))];
-  const years = [...new Set(movies.map((movie) => movie.release_year))].sort((a, b) => b - a);
+  useEffect(() => {
+    fetchGenres().then(setAllGenres);
+  }, []);
+  
+  const [allGenres, setAllGenres] = useState([]);
+  
+  const years = [...new Set(movies.map((movie) => movie.releaseYear))].sort((a, b) => b - a);
+
 
   const handleFilter = () => {
     let filtered = movies;
@@ -32,11 +38,15 @@ export default function Home() {
       );
     }
     if (selectedGenre) {
-      filtered = filtered.filter((movie) => movie.genre === selectedGenre);
-    }
-    if (selectedYear) {
-      filtered = filtered.filter((movie) => movie.release_year.toString() === selectedYear);
-    }
+        filtered = filtered.filter((movie) =>
+          movie.genres?.some((g) => g.name === selectedGenre)
+        );
+      }
+      
+      if (selectedYear) {
+        filtered = filtered.filter((movie) => movie.releaseYear.toString() === selectedYear);
+      }
+      
 
     setFilteredMovies(filtered);
   };
@@ -64,20 +74,19 @@ export default function Home() {
         </div>
 
         {/* Genre Filter */}
-        <div className="col-md-4">
-          <select
-            className="form-select"
-            value={selectedGenre}
-            onChange={(e) => setSelectedGenre(e.target.value)}
-          >
-            <option value="">All Genres</option>
-            {genres.map((genre) => (
-              <option key={genre} value={genre}>
-                {genre}
-              </option>
-            ))}
-          </select>
-        </div>
+        <select
+  className="form-select"
+  value={selectedGenre}
+  onChange={(e) => setSelectedGenre(e.target.value)}
+>
+  <option value="">All Genres</option>
+  {allGenres.map((genre) => (
+    <option key={genre.id} value={genre.name}>
+      {genre.name}
+    </option>
+  ))}
+</select>
+
 
         {/* Year Filter */}
         <div className="col-md-4">

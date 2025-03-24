@@ -11,27 +11,34 @@ import java.util.Optional;
 public class MovieJdbcClientRepository implements MovieRepository {
 
     private final JdbcClient jdbcClient;
+    private final GenreRepository genreRepository;
 
-    public MovieJdbcClientRepository(JdbcClient jdbcClient) {
+    public MovieJdbcClientRepository(JdbcClient jdbcClient, GenreRepository genreRepository) {
         this.jdbcClient = jdbcClient;
+        this.genreRepository = genreRepository;
     }
 
     @Override
     public List<Movie> findAll() {
         final String sql = "SELECT * FROM Movies;";
         return jdbcClient.sql(sql)
-                .query((rs, rowNum) -> new Movie(
-                        rs.getInt("id"),
-                        rs.getString("title"),
-                        rs.getString("description"),
-                        rs.getInt("release_year"),
-                        rs.getString("director"),
-                        rs.getDouble("rating"),
-                        rs.getString("poster"), // ✅ Poster column now included
-                        rs.getTimestamp("created_at").toLocalDateTime()
-                ))
+                .query((rs, rowNum) -> {
+                    Movie movie = new Movie(
+                            rs.getInt("id"),
+                            rs.getString("title"),
+                            rs.getString("description"),
+                            rs.getInt("release_year"),
+                            rs.getString("director"),
+                            rs.getDouble("rating"),
+                            rs.getString("poster"),
+                            rs.getTimestamp("created_at").toLocalDateTime()
+                    );
+                    movie.setGenres(genreRepository.findByMovieId(movie.getId()));
+                    return movie;
+                })
                 .list();
     }
+
 
     @Override
     public Optional<Movie> findById(int id) {
