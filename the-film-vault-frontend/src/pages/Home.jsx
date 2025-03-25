@@ -63,8 +63,6 @@ export default function Home() {
       <h1 className="text-center mb-3 display-5 fw-bold">
         🎬 Movies
       </h1>
-      <h2 className="text-center text-primary mb-4">The Film Vault</h2>
-  
       {/* Filter Section */}
       <div className="row g-3 mb-4 align-items-end">
         {/* Search Bar */}
