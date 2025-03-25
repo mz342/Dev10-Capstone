@@ -60,9 +60,12 @@ export default function Home() {
 
   return (
     <div className="container mt-5">
-      <h1 className="text-center mb-3 display-5 fw-bold">
-        🎬 Movies
-      </h1>
+      {/* Hero Banner */}
+      <div className="bg-dark text-white text-center p-5 rounded shadow mb-4">
+        <h1 className="display-4 fw-bold mb-3">🎬 The Film Vault</h1>
+        <p className="lead mb-0">Discover, review, and track your favorite movies.</p>
+      </div>
+  
       {/* Filter Section */}
       <div className="row g-3 mb-4 align-items-end">
         {/* Search Bar */}
@@ -145,5 +148,6 @@ export default function Home() {
       </div>
     </div>
   );
+  
   
 }
