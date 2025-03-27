@@ -173,65 +173,73 @@ export default function MovieDetails() {
 
   return (
     <div className="container mt-5">
-      <div className="row">
+      <div className="row g-4">
         {/* Movie Poster */}
         <div className="col-md-4">
-        <img
+          <img
             src={getPosterUrl(movie.poster)}
             alt={movie.title}
-            className="img-fluid rounded shadow"
-            />
+            className="img-fluid rounded shadow-sm border"
+          />
         </div>
-
+  
         {/* Movie Details */}
         <div className="col-md-8">
-          <h1>{movie.title}</h1>
+          <h1 className="fw-bold mb-3">{movie.title}</h1>
           <p className="lead">{movie.description}</p>
-          <p><strong>Director:</strong> {movie.director}</p>
-          <p>
-            <strong>Genre:</strong>{" "}
-            {genres.length > 0 ? genres.map((g) => g.name).join(", ") : "N/A"}
-         </p>
-
-          <p><strong>Release Year:</strong> {movie.releaseYear}</p>
-          <p><strong>Rating:</strong> {averageRating}/10</p> {/*  Displays avg rating */}
-
-         {/* Watchlist / Watched Buttons */}
-        <div className="mt-3">
-          {/* Watchlist Button */}
-          <button
-            className={`btn me-2 ${status === "WANT_TO_WATCH" ? "btn-warning selected-glow" : "btn-outline-warning"}`}
-            onClick={() => updateStatus("WATCHLIST")}
-          >
-            {status === "WANT_TO_WATCH" ? "✓ In Watchlist" : "Add to Watchlist"}
-          </button>
-
-          {/* Watched Button */}
-          <button
-            className={`btn ${status === "WATCHED" ? "btn-success selected-glow" : "btn-outline-success"}`}
-            onClick={() => updateStatus("WATCHED")}
-          >
-            {status === "WATCHED" ? "✓ Watched" : "Mark as Watched"}
-          </button>
-        </div>
-
+  
+          <div className="mb-3">
+            <p><strong>Director:</strong> {movie.director}</p>
+            <p>
+              <strong>Genre:</strong>{" "}
+              {genres.length > 0 ? (
+                genres.map((g) => (
+                  <span key={g.id} className="genre-badge me-1">
+                    {g.name}
+                  </span>
+                ))
+              ) : (
+                "N/A"
+              )}
+            </p>
+            <p><strong>Release Year:</strong> {movie.releaseYear}</p>
+            <p><strong>Rating:</strong> {averageRating}/10</p>
+          </div>
+  
+          {/* Watchlist / Watched Buttons */}
+          <div className="mb-4">
+            <button
+              className={`btn me-2 ${status === "WANT_TO_WATCH" ? "btn-warning selected-glow" : "btn-outline-warning"}`}
+              onClick={() => updateStatus("WATCHLIST")}
+            >
+              {status === "WANT_TO_WATCH" ? "✓ In Watchlist" : "Add to Watchlist"}
+            </button>
+  
+            <button
+              className={`btn ${status === "WATCHED" ? "btn-success selected-glow" : "btn-outline-success"}`}
+              onClick={() => updateStatus("WATCHED")}
+            >
+              {status === "WATCHED" ? "✓ Watched" : "Mark as Watched"}
+            </button>
+          </div>
+  
           {/* Reviews Section */}
-          <h3 className="mt-4">Reviews</h3>
-          <ul className="list-group">
+          <h3 className="mb-3">Reviews</h3>
+          <ul className="list-group mb-3">
             {reviews.length > 0 ? (
               reviews.map((review, index) => (
                 <li key={index} className="list-group-item">
-                  <strong>⭐ {review.rating}/10</strong> - {review.reviewText}
+                  <strong>⭐ {review.rating}/10</strong> – {review.reviewText}
                 </li>
               ))
             ) : (
               <li className="list-group-item text-muted">No reviews yet.</li>
             )}
           </ul>
-
+  
           {/* Add a Review */}
           <div className="mt-3">
-            <label><strong>Rate this movie:</strong></label>
+            <label className="fw-semibold">Rate this movie:</label>
             <select
               className="form-control mb-2"
               value={selectedRating || ""}
@@ -242,14 +250,14 @@ export default function MovieDetails() {
                 <option key={i + 1} value={i + 1}>{i + 1}</option>
               ))}
             </select>
-
+  
             <textarea
               className="form-control"
               value={newReview}
               onChange={(e) => setNewReview(e.target.value)}
               placeholder="Write a review..."
             />
-
+  
             <button className="btn btn-primary mt-2" onClick={handleAddReview}>
               Submit Review
             </button>
@@ -258,5 +266,6 @@ export default function MovieDetails() {
       </div>
     </div>
   );
+  
 
 }

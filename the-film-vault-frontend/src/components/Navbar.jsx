@@ -7,13 +7,12 @@ export default function Navbar() {
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-  
+
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     } else {
-      //  Check if the user is logged in via Google session
       fetch("http://localhost:8080/api/user/me", {
-        credentials: "include", 
+        credentials: "include",
       })
         .then((res) => {
           if (res.ok) return res.json();
@@ -23,64 +22,70 @@ export default function Navbar() {
           localStorage.setItem("user", JSON.stringify(userData));
           setUser(userData);
         })
-        .catch(() => {
-          // User is not logged in via Google or session expired
-          setUser(null);
-        });
+        .catch(() => setUser(null));
     }
   }, []);
-  
 
   const handleLogout = () => {
-    //  Clear localStorage & Update State
     localStorage.removeItem("user");
-    setUser(null); 
-
-    //  Navigate back to login page
+    setUser(null);
     navigate("/login");
-
-    //   Force a full page reload to ensure fresh state
     window.location.reload();
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav className="navbar navbar-expand-lg" style={{ background: "linear-gradient(to right, #1f1f1f, #343a40)", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)" }}>
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/">🎬 The Film Vault</Link>
-        <button 
-          className="navbar-toggler" 
-          type="button" 
-          data-bs-toggle="collapse" 
+        <Link
+          className="navbar-brand fw-bold text-white"
+          to="/"
+          style={{ textShadow: "0 0 8px #00e1ff" }}
+        >
+          🎬 The Film Vault
+        </Link>
+        <button
+          className="navbar-toggler bg-light"
+          type="button"
+          data-bs-toggle="collapse"
           data-bs-target="#navbarNav"
         >
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav ms-auto">
+          <ul className="navbar-nav ms-auto d-flex align-items-center gap-2">
             <li className="nav-item">
-              <Link className="nav-link" to="/">Home</Link>
+              <Link className="nav-link text-white" to="/">Home</Link>
             </li>
             {user && (
               <>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/watchlist">Watchlist</Link>
+                  <Link className="nav-link text-white" to="/watchlist">Watchlist</Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/watched">Watched Movies</Link>
+                  <Link className="nav-link text-white" to="/watched">Watched Movies</Link>
                 </li>
               </>
             )}
             {user ? (
               <li className="nav-item">
-                <button className="btn btn-danger ms-3" onClick={handleLogout}>Logout</button>
+                <button
+                  className="btn btn-outline-danger rounded-pill px-3"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
               </li>
             ) : (
               <>
                 <li className="nav-item">
-                  <Link className="btn btn-primary ms-3" to="/login">Login</Link>
+                  <Link className="btn btn-outline-primary rounded-pill px-3" to="/login">
+                    Login
+                  </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="btn btn-success ms-3" to="/signup">Sign Up</Link>
+                  <Link className="btn btn-outline-success rounded-pill px-3" to="/signup">
+                    Sign Up
+                  </Link>
                 </li>
               </>
             )}
